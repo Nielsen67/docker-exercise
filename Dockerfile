@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Copy go.mod and go.sum (if it exists)
 COPY go.mod ./
-COPY go.sum ./ 2>/dev/null || true
+# Use a RUN command to copy go.sum optionally
+RUN if [ -f go.sum ]; then cp go.sum .; fi
 RUN go mod download
 
 # Copy the source code
@@ -26,6 +27,9 @@ COPY --from=build /app/service .
 
 # Set the timezone and install CA certificates
 RUN apk --no-cache add ca-certificates tzdata
+
+# Expose the port (adjust if your app uses a different port)
+EXPOSE 8080
 
 # Set the entrypoint command
 ENTRYPOINT ["/app/service"]
