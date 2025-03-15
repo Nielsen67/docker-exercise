@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8070:8070"  # Host port 8080 to container port 8080
+    environment:
+      - PORT=8070  # Explicitly set to match the desired port
+      - ENV=dev
+    volumes:
+      - .:/app  # Optional: for development
