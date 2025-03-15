@@ -4,8 +4,9 @@ FROM golang:1.23.3-alpine3.20 AS build
 # Set the working directory
 WORKDIR /app
 
-# Copy and download dependencies
-COPY go.mod go.sum ./
+# Copy go.mod and go.sum (if it exists)
+COPY go.mod ./
+COPY go.sum ./ 2>/dev/null || true
 RUN go mod download
 
 # Copy the source code
